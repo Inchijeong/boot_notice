@@ -56,26 +56,31 @@ public class NoticeRepositoryTests {
 	@Test
 	public void updateNoticeTest() {
 		
-		Optional<Notice> noticeWrapper = noticeRepository.findById(1l);
+		Optional<Notice> noticeWrapper = noticeRepository.findById(2l);
 		
-		log.info("noticeWrapper.isPresent() " + noticeWrapper.isPresent());
+		noticeWrapper.ifPresent(noti -> log.info(new NoticeDto(noti).toString()));
 		
 		noticeWrapper.ifPresent(noti -> {
 			
 			Notice editedNotice = Notice.builder()
 					.id(noti.getId())
+					.writer("변경된 작성자")
 					.title("변경된 제목")
 					.content("변경된 내용")
 					.build();
 			
 			noticeRepository.save(editedNotice);
-		});		
+		});
+		
+		noticeRepository.findById(1l).ifPresent(noti -> log.info(new NoticeDto(noti).toString()));
 	}
 	
 	@Test
 	public void deleteNoticeTest() {
 		
-		noticeRepository.deleteById(1l);		
+		noticeRepository.deleteById(1l);
+		
+		log.info("isPresent? "+noticeRepository.findById(2l).isPresent());
 	}
 	
 }
