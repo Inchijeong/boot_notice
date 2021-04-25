@@ -1,14 +1,16 @@
 package com.notice.service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.notice.domain.Notice;
-import com.notice.dto.NoticeDto;
+import com.notice.dto.NoticeDTO;
 import com.notice.repository.NoticeRepository;
+import com.notice.vo.PageMaker;
+import com.notice.vo.PageVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,34 +20,36 @@ public class NoticeService {
 
 	private final NoticeRepository noticeRepository;
 	
-	public List<NoticeDto> getNoticeList() {
-		return noticeRepository.findAll()
-				.stream()
-				.map(NoticeDto::new)
-				.collect(Collectors.toList());
+	public PageMaker<NoticeDTO> getNoticeList(PageVO pageVO) {
+		Pageable page = pageVO.makePageable(0, "id");
+
+		Page<Notice> result = noticeRepository.findAll(
+				noticeRepository.makePredicate(pageVO.getType(), pageVO.getKeyword()), page);
+
+		return new PageMaker<NoticeDTO>(result.map(NoticeDTO::new));
 	}
 	
-	public NoticeDto getNotice(Long noticeId) {
+	public NoticeDTO getNotice(Long noticeId) {
 		Optional<Notice> noticeWrapper = noticeRepository.findById(noticeId);
-		NoticeDto noticeDto = null;
+		NoticeDTO noticeDTO = null;
 		
 		if(noticeWrapper.isPresent()) {
-			noticeDto = new NoticeDto(noticeWrapper.get());
+			noticeDTO = new NoticeDTO(noticeWrapper.get());
 		}else {
-			noticeDto = new NoticeDto();
+			noticeDTO = new NoticeDTO();
 		}
-		return noticeDto;
+		return noticeDTO;
 	}
 	
-	public Long saveNotice(NoticeDto noticeDto) {
-		Notice notice = noticeRepository.save(noticeDto.toEntity());
+	public Long saveNotice(NoticeDTO noticeDTO) {
+		Notice notice = noticeRepository.save(noticeDTO.toEntity());
 		return notice.getId();
 	}
 	
-	public Long updateNotice(Long noticeId, NoticeDto noticeDto) {
+	public Long updateNotice(Long noticeId, NoticeDTO noticeDTO) {
 		Optional<Notice> noticeWrapper = noticeRepository.findById(noticeId);
 		if(noticeWrapper.isPresent()) {
-			noticeRepository.save(noticeDto.toEntity());
+			noticeRepository.save(noticeDTO.toEntity());
 		}
 		return noticeId;
 	}

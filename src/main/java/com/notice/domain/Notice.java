@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "notice")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public class Notice extends BaseEntity{
+public class Notice extends BaseTimeEntity{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

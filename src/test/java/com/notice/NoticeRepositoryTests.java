@@ -1,6 +1,5 @@
 package com.notice;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.LongStream;
 
@@ -12,7 +11,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.notice.domain.Notice;
-import com.notice.dto.NoticeDto;
+import com.notice.dto.NoticeDTO;
 import com.notice.repository.NoticeRepository;
 
 import lombok.extern.java.Log;
@@ -46,11 +45,11 @@ public class NoticeRepositoryTests {
 		
 		Optional<Notice> noticeWrapper = noticeRepository.findById(1l);
 		log.info("단일 조회");
-		noticeWrapper.ifPresent(noti -> log.info(new NoticeDto(noti).toString()));
+		noticeWrapper.ifPresent(noti -> log.info(new NoticeDTO(noti).toString()));
 		
-		List<Notice> noticeList = noticeRepository.findAll();		
-		log.info("목록 조회");
-		noticeList.stream().forEach(noti -> log.info(new NoticeDto(noti).toString()));
+//		List<Notice> noticeList = noticeRepository.findAll();		
+//		log.info("목록 조회");
+//		noticeList.stream().forEach(noti -> log.info(new NoticeDTO(noti).toString()));
 	}
 	
 	@Test
@@ -58,7 +57,7 @@ public class NoticeRepositoryTests {
 		
 		Optional<Notice> noticeWrapper = noticeRepository.findById(2l);
 		
-		noticeWrapper.ifPresent(noti -> log.info(new NoticeDto(noti).toString()));
+		noticeWrapper.ifPresent(noti -> log.info(new NoticeDTO(noti).toString()));
 		
 		noticeWrapper.ifPresent(noti -> {
 			
@@ -72,15 +71,15 @@ public class NoticeRepositoryTests {
 			noticeRepository.save(editedNotice);
 		});
 		
-		noticeRepository.findById(1l).ifPresent(noti -> log.info(new NoticeDto(noti).toString()));
+		noticeRepository.findById(1l).ifPresent(noti -> log.info(new NoticeDTO(noti).toString()));
 	}
 	
 	@Test
 	public void deleteNoticeTest() {
 		
-		noticeRepository.deleteById(1l);
-		
-		log.info("isPresent? "+noticeRepository.findById(2l).isPresent());
+		noticeRepository.findById(2l).ifPresent(noti -> {
+			noticeRepository.deleteById(noti.getId());			
+		});
 	}
 	
 }

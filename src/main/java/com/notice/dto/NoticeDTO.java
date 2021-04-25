@@ -13,7 +13,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @NoArgsConstructor
-public class NoticeDto {
+public class NoticeDTO {
 	
 	private Long id;
     private String writer;
@@ -22,7 +22,7 @@ public class NoticeDto {
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 	
-	public NoticeDto(Notice entity) {
+	public NoticeDTO(Notice entity) {
 		this.id = entity.getId();
 		this.writer = entity.getWriter();
 		this.title = entity.getTitle();

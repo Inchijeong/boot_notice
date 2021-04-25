@@ -1,16 +1,47 @@
-<!DOCTYPE html>
-<html lnag="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Write</title>
-</head>
-<body>
-	<form action="/api/v1/notices" method="post">
-		제목 : <input type="text" name="title"><br>
-		작성자 : <input type="text" name="writer"><br>
-		내용 : <textarea name="content"></textarea><br>
+<html xmls:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+
+<div layout:fragment="content">
+
+	<div class="panel-heading">Register Page</div>
+	<div class="panel-body">
+
+		<form th:action="@{/notices}" method="post">
 		
-		<input type="submit" value="등록">
-	</form>
-</body>
-</html>
+			<div class="form-group">
+				<label>Title</label>
+				<input class="form-control" name="title" />
+				<p class="help-block">Title text here.</p>
+			</div>
+			
+			<div class="form-group">
+				<label>Content</label>
+				<textarea class="form-control" rows="3" name="content" ></textarea>
+			</div>
+			
+			<div class="form-group">
+				<label>Writer</label>
+				<input class="form-control" name="writer" />
+			</div>
+			
+			<button type="submit" class="btn btn-default">Submit Button</button>
+			<button type="reset" class="btn btn-primary">Reset Button</button>
+		</form>
+
+	</div>
+	<!-- End panel -->
+</div>
+<!-- End fragment -->
+
+<th:block layout:fragment="script">
+
+	<script th:inline="javascript">
+
+	
+	</script>
+	
+</th:block>
+
+
+
