@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,12 +37,12 @@ public class NoticeRestController {
 	}
 	
 	@PostMapping("/notices")
-	public ResponseEntity<Long> saveNotice(NoticeDTO noticeDTO){
+	public ResponseEntity<Long> saveNotice(@RequestBody NoticeDTO noticeDTO){
 		return new ResponseEntity<Long>(noticeService.saveNotice(noticeDTO), HttpStatus.OK);
 	}
 	
 	@PutMapping("/notices/{id}")
-	public ResponseEntity<Long> updateNotice(@PathVariable("id") Long noticeId, NoticeDTO noticeDTO){
+	public ResponseEntity<Long> updateNotice(@PathVariable("id") Long noticeId, @RequestBody NoticeDTO noticeDTO){
 		return new ResponseEntity<Long>(noticeService.updateNotice(noticeId, noticeDTO), HttpStatus.OK);
 	}
 	
